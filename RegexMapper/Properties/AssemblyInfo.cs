@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("RegexMapper")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Regex Object Mapper")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Stendahls.net")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("RegexMapper")]
-[assembly: AssemblyCopyright("Copyright © Stendahls.net 2015")]
+[assembly: AssemblyCopyright("Copyright © Magnus Unger 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>unger</authors>
+    <owners>unger</owners>
+    <licenseUrl>https://github.com/unger/RegexMapper</licenseUrl>
+    <projectUrl>https://github.com/unger/RegexMapper</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>Regex Object Mapper</tags>
+  </metadata>
+</package>
