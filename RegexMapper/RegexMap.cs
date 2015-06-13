@@ -47,8 +47,12 @@
                 matchList.Add(dict);
             }
 
-
             return SafeMap.Convert<List<Dictionary<string, string>>, List<T>>(matchList);
+        }
+
+        private bool IsNumeric(string input)
+        {
+            return input.All(t => (t >= 48) || (t <= 57));
         }
     }
 }
