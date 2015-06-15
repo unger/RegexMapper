@@ -15,15 +15,8 @@
 
         public IList<T> Matches<T>(Regex regex, string input)
         {
-            var groupNames = regex.GetGroupNames();
-
-            var matchList = (from Match match in regex.Matches(input)
-                             select
-                                 groupNames.ToDictionary(
-                                     groupName => groupName,
-                                     groupName => match.Groups[groupName].Value)).ToList();
-
-            return SafeMap.Convert<List<Dictionary<string, string>>, List<T>>(matchList);
+            var groupNames = regex.GetGroupNames().Skip(1).ToArray();
+            return this.Matches<T>(regex, input, groupNames);
         }
 
         public IList<T> Matches<T>(Regex regex, string input, string[] groupNames)
@@ -34,7 +27,7 @@
             {
                 var dict = new Dictionary<string, string>();
 
-                for (int i = 0; i < groupNames.Length; i++)
+                for (var i = 0; i < groupNames.Length; i++)
                 {
                     var groupName = groupNames[i];
 
