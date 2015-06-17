@@ -23,22 +23,36 @@
         {
             var matchList = new List<Dictionary<string, string>>();
 
+            // Fix groupnames
+            for (int i = 0; i < groupNames.Length; i++)
+            {
+                if (this.IsNumeric(groupNames[i]))
+                {
+                    groupNames[i] = string.Format("Property{0}", groupNames[i]);
+                }
+            }
+
+            var dict = new Dictionary<string, string>();
             foreach (Match match in regex.Matches(input))
             {
-                var dict = new Dictionary<string, string>();
-
                 for (var i = 0; i < groupNames.Length; i++)
                 {
                     var groupName = groupNames[i];
 
-                    if ((i + 1) < match.Groups.Count)
+                    if ((i + 1) < match.Groups.Count && match.Groups[i + 1].Success)
                     {
+                        if (dict.ContainsKey(groupName))
+                        {
+                            matchList.Add(dict);
+                            dict = new Dictionary<string, string>();
+                        }
+
                         dict.Add(groupName, match.Groups[i + 1].Value);
                     }
                 }
-
-                matchList.Add(dict);
             }
+
+            matchList.Add(dict);
 
             return SafeMap.Convert<List<Dictionary<string, string>>, List<T>>(matchList);
         }
