@@ -85,10 +85,26 @@
             Assert.AreEqual(null, result[0].Name);
             Assert.AreEqual(12, result[1].Id);
             Assert.AreEqual("Test12", result[1].Name);
-            Assert.AreEqual(1234, result[2].Id);
+            Assert.AreEqual(0, result[2].Id);
             Assert.AreEqual("Test123", result[2].Name);
-            Assert.AreEqual(0, result[3].Id);
+            Assert.AreEqual(1234, result[3].Id);
             Assert.AreEqual("Test1234", result[3].Name);
+        }
+
+        [Test]
+        public void TestMapping_WithMultipleNonSymetricMatchesMappedToOneObjectAndPreserveOrder()
+        {
+            var mapper = new RegexMap();
+
+            var result = mapper.Matches<TestModel>(
+                            new Regex(@"Id:(?<Id>\d*)|Name:""(?<Name>[^""]*)"""),
+                            @"{Name:""Test1""},{Id:1}");
+
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual(0, result[0].Id);
+            Assert.AreEqual("Test1", result[0].Name);
+            Assert.AreEqual(1, result[1].Id);
+            Assert.AreEqual(null, result[1].Name);
         }
 
         [Test]

@@ -35,19 +35,39 @@
             var dict = new Dictionary<string, string>();
             foreach (Match match in regex.Matches(input))
             {
+                var foundSuccessGroup = false;
+                var notmatchedGroupNames = new List<string>();
                 for (var i = 0; i < groupNames.Length; i++)
                 {
                     var groupName = groupNames[i];
 
                     if ((i + 1) < match.Groups.Count && match.Groups[i + 1].Success)
                     {
+                        foundSuccessGroup = true;
                         if (dict.ContainsKey(groupName))
                         {
                             matchList.Add(dict);
                             dict = new Dictionary<string, string>();
+                            foreach (var notmatchedGroupName in notmatchedGroupNames)
+                            {
+                                dict.Add(notmatchedGroupName, null);
+                            }
                         }
 
                         dict.Add(groupName, match.Groups[i + 1].Value);
+                    }
+                    else
+                    {
+                        // To preserve order of matched groups mark the groupName as used
+                        // only if it has not already found a group with successful match
+                        if (!foundSuccessGroup)
+                        {
+                            notmatchedGroupNames.Add(groupName);
+                            if (!dict.ContainsKey(groupName))
+                            {
+                                dict.Add(groupName, null);
+                            }
+                        }
                     }
                 }
             }
@@ -59,7 +79,7 @@
 
         private bool IsNumeric(string input)
         {
-            return input.All(t => (t >= 48) || (t <= 57));
+            return input.All(t => (t >= 48) && (t <= 57));
         }
     }
 }
