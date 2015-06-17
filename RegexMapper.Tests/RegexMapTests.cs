@@ -16,7 +16,7 @@
             var mapper = new RegexMap();
 
             var result = mapper.Matches<TestModel>(
-                            new Regex(@"{Id:(?<Id>\d*),Name:""(?<Name>[^""]*)""}"),
+                            @"{Id:(?<Id>\d*),Name:""(?<Name>[^""]*)""}",
                             @"{Id:1,Name:""Test1""},{Id:12,Name:""Test12""},{Id:123,Name:""Test123""},{Id:1234,Name:""Test1234""}");
 
             Assert.AreEqual(4, result.Count);
@@ -39,6 +39,27 @@
                             new Regex(@"{Id:(\d*),Name:""([^""]*)""}"),
                             @"{Id:1,Name:""Test1""},{Id:12,Name:""Test12""},{Id:123,Name:""Test123""},{Id:1234,Name:""Test1234""}",
                             new[] { "Id", "Name" });
+
+            Assert.AreEqual(4, result.Count);
+            Assert.AreEqual(1, result[0].Id);
+            Assert.AreEqual("Test1", result[0].Name);
+            Assert.AreEqual(12, result[1].Id);
+            Assert.AreEqual("Test12", result[1].Name);
+            Assert.AreEqual(123, result[2].Id);
+            Assert.AreEqual("Test123", result[2].Name);
+            Assert.AreEqual(1234, result[3].Id);
+            Assert.AreEqual("Test1234", result[3].Name);
+        }
+
+        [Test]
+        public void TestMapping_WithToManyGroupNamesDefinedInFunction()
+        {
+            var mapper = new RegexMap();
+
+            var result = mapper.Matches<TestModel>(
+                            new Regex(@"{Id:(\d*),Name:""([^""]*)""}"),
+                            @"{Id:1,Name:""Test1""},{Id:12,Name:""Test12""},{Id:123,Name:""Test123""},{Id:1234,Name:""Test1234""}",
+                            new[] { "Id", "Name", "Property3" });
 
             Assert.AreEqual(4, result.Count);
             Assert.AreEqual(1, result[0].Id);
@@ -78,6 +99,22 @@
 
             var result = mapper.Matches<TestModel>(
                             new Regex(@"Id:(?<Id>\d*)|Name:""(?<Name>[^""]*)"""),
+                            @"{Name:""Test1""},{Id:1}");
+
+            Assert.AreEqual(2, result.Count);
+            Assert.AreEqual(0, result[0].Id);
+            Assert.AreEqual("Test1", result[0].Name);
+            Assert.AreEqual(1, result[1].Id);
+            Assert.AreEqual(null, result[1].Name);
+        }
+
+        [Test]
+        public void TestMapping_WithMultipleNonSymetricMatchesMappedToOneObjectAndPreserveOrder()
+        {
+            var mapper = new RegexMap();
+
+            var result = mapper.Matches<TestModel>(
+                            new Regex(@"Id:(?<Id>\d*)|Name:""(?<Name>[^""]*)"""),
                             @"{Id:1},{Id:12,Name:""Test12""},{Name:""Test123""},{Id:1234,Name:""Test1234""}");
 
             Assert.AreEqual(4, result.Count);
@@ -89,22 +126,6 @@
             Assert.AreEqual("Test123", result[2].Name);
             Assert.AreEqual(1234, result[3].Id);
             Assert.AreEqual("Test1234", result[3].Name);
-        }
-
-        [Test]
-        public void TestMapping_WithMultipleNonSymetricMatchesMappedToOneObjectAndPreserveOrder()
-        {
-            var mapper = new RegexMap();
-
-            var result = mapper.Matches<TestModel>(
-                            new Regex(@"Id:(?<Id>\d*)|Name:""(?<Name>[^""]*)"""),
-                            @"{Name:""Test1""},{Id:1}");
-
-            Assert.AreEqual(2, result.Count);
-            Assert.AreEqual(0, result[0].Id);
-            Assert.AreEqual("Test1", result[0].Name);
-            Assert.AreEqual(1, result[1].Id);
-            Assert.AreEqual(null, result[1].Name);
         }
 
         [Test]
