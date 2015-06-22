@@ -10,12 +10,18 @@
     [TestFixture]
     public class RegexMapTests
     {
-        [Test]
-        public void TestMapping_WithGroupNamesDefinedInRegex()
-        {
-            var mapper = new RegexMap();
+        private RegexMap<TestModel> mapper;
 
-            var result = mapper.Matches<TestModel>(
+        [SetUp]
+        public void SetUp()
+        {
+            this.mapper = new RegexMap<TestModel>();
+        }
+            
+        [Test]
+        public void Matches_WithGroupNamesDefinedInRegex()
+        {
+            var result = this.mapper.Matches(
                             @"{Id:(?<Id>\d*),Name:""(?<Name>[^""]*)""}",
                             @"{Id:1,Name:""Test1""},{Id:12,Name:""Test12""},{Id:123,Name:""Test123""},{Id:1234,Name:""Test1234""}");
 
@@ -31,11 +37,9 @@
         }
 
         [Test]
-        public void TestMapping_WithGroupNamesDefinedInFunction()
+        public void Matches_WithGroupNamesDefinedInFunction()
         {
-            var mapper = new RegexMap();
-
-            var result = mapper.Matches<TestModel>(
+            var result = this.mapper.Matches(
                             new Regex(@"{Id:(\d*),Name:""([^""]*)""}"),
                             @"{Id:1,Name:""Test1""},{Id:12,Name:""Test12""},{Id:123,Name:""Test123""},{Id:1234,Name:""Test1234""}",
                             new[] { "Id", "Name" });
@@ -52,11 +56,9 @@
         }
 
         [Test]
-        public void TestMapping_WithToManyGroupNamesDefinedInFunction()
+        public void Matches_WithToManyGroupNamesDefinedInFunction()
         {
-            var mapper = new RegexMap();
-
-            var result = mapper.Matches<TestModel>(
+            var result = this.mapper.Matches(
                             new Regex(@"{Id:(\d*),Name:""([^""]*)""}"),
                             @"{Id:1,Name:""Test1""},{Id:12,Name:""Test12""},{Id:123,Name:""Test123""},{Id:1234,Name:""Test1234""}",
                             new[] { "Id", "Name", "Property3" });
@@ -73,11 +75,9 @@
         }
 
         [Test]
-        public void TestMapping_WithMultipleMatchesMappedToOneObject()
+        public void Matches_WithMultipleMatchesMappedToOneObject()
         {
-            var mapper = new RegexMap();
-
-            var result = mapper.Matches<TestModel>(
+            var result = this.mapper.Matches(
                             new Regex(@"Id:(?<Id>\d*)|Name:""(?<Name>[^""]*)"""),
                             @"{Id:1,Name:""Test1""},{Id:12,Name:""Test12""},{Id:123,Name:""Test123""},{Id:1234,Name:""Test1234""}");
 
@@ -93,11 +93,9 @@
         }
 
         [Test]
-        public void TestMapping_WithMultipleNonSymetricMatchesMappedToOneObject()
+        public void Matches_WithMultipleNonSymetricMatchesMappedToOneObject()
         {
-            var mapper = new RegexMap();
-
-            var result = mapper.Matches<TestModel>(
+            var result = this.mapper.Matches(
                             new Regex(@"Id:(?<Id>\d*)|Name:""(?<Name>[^""]*)"""),
                             @"{Name:""Test1""},{Id:1}");
 
@@ -109,11 +107,9 @@
         }
 
         [Test]
-        public void TestMapping_WithMultipleNonSymetricMatchesMappedToOneObjectAndPreserveOrder()
+        public void Matches_WithMultipleNonSymetricMatchesMappedToOneObjectAndPreserveOrder()
         {
-            var mapper = new RegexMap();
-
-            var result = mapper.Matches<TestModel>(
+            var result = this.mapper.Matches(
                             new Regex(@"Id:(?<Id>\d*)|Name:""(?<Name>[^""]*)"""),
                             @"{Id:1},{Id:12,Name:""Test12""},{Name:""Test123""},{Id:1234,Name:""Test1234""}");
 
@@ -129,11 +125,11 @@
         }
 
         [Test]
-        public void TestMapping_WithUnamedGroupsShouldReturnDictionaryWithCorrectKeys()
+        public void Matches_WithUnamedGroupsShouldReturnDictionaryWithCorrectKeys()
         {
-            var mapper = new RegexMap();
+            var dictMapper = new RegexMap<Dictionary<string, string>>();
 
-            var result = mapper.Matches<Dictionary<string, string>>(
+            var result = dictMapper.Matches(
                             new Regex(@"{Id:(\d*),Name:""([^""]*)""}"),
                             @"{Id:1,Name:""Test1""},{Id:12,Name:""Test12""},{Id:123,Name:""Test123""},{Id:1234,Name:""Test1234""}");
 

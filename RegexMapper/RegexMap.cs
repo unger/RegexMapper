@@ -1,25 +1,39 @@
 ﻿namespace RegexMapper
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
+    using System.Web;
 
     using SafeMapper;
 
-    public class RegexMap
+    public class RegexMap<T> where T : class
     {
-        public IList<T> Matches<T>(string pattern, string input)
+        private RegexMapOptions options;
+
+        public RegexMap() 
+            : this(RegexMapOptions.None)
         {
-            return this.Matches<T>(new Regex(pattern), input);
         }
 
-        public IList<T> Matches<T>(Regex regex, string input)
+        public RegexMap(RegexMapOptions options)
+        {
+            this.options = options;
+        }
+
+        public IList<T> Matches(string pattern, string input)
+        {
+            return this.Matches(new Regex(pattern), input);
+        }
+
+        public IList<T> Matches(Regex regex, string input)
         {
             var groupNames = regex.GetGroupNames().Skip(1).ToArray();
-            return this.Matches<T>(regex, input, groupNames);
+            return this.Matches(regex, input, groupNames);
         }
 
-        public IList<T> Matches<T>(Regex regex, string input, string[] groupNames)
+        public IList<T> Matches(Regex regex, string input, string[] groupNames)
         {
             var matchList = new List<Dictionary<string, string>>();
 
@@ -54,7 +68,27 @@
                             }
                         }
 
-                        dict.Add(groupName, match.Groups[i + 1].Value);
+                        var value = match.Groups[i + 1].Value;
+
+                        if ((this.options & RegexMapOptions.Trim) == RegexMapOptions.Trim)
+                        {
+                            value = value.Trim();
+                        }
+
+                        if ((this.options & RegexMapOptions.HtmlDecode) == RegexMapOptions.HtmlDecode)
+                        {
+                            value = HttpUtility.HtmlDecode(value);
+                        }
+
+                        if ((this.options & RegexMapOptions.UpperCaseFirst) == RegexMapOptions.UpperCaseFirst)
+                        {
+                            if (value.Length > 0)
+                            {
+                                value = value[0].ToString(CultureInfo.InvariantCulture).ToUpper() + value.Substring(1);
+                            }
+                        }
+
+                        dict.Add(groupName, value);
                     }
                     else
                     {
