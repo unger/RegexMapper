@@ -25,7 +25,7 @@
                         new TestModel { Id = 1, Name = "Test1" }, 
                         new TestModel { Id = 12, Name = "Test12" },
                         new TestModel { Id = 123, Name = "Test123" }, 
-                        new TestModel { Id = 1234, Name = "Test1234" },
+                        new TestModel { Id = 1234, Name = "Test1234" }
                     },
                 result);
         }
@@ -46,7 +46,7 @@
                         new TestModel { Id = 1, Name = "Test1" }, 
                         new TestModel { Id = 12, Name = "Test12" },
                         new TestModel { Id = 123, Name = "Test123" }, 
-                        new TestModel { Id = 1234, Name = "Test1234" },
+                        new TestModel { Id = 1234, Name = "Test1234" }
                     },
                 result);
         }
@@ -67,7 +67,7 @@
                         new TestModel { Id = 1, Name = "Test1" }, 
                         new TestModel { Id = 12, Name = "Test12" },
                         new TestModel { Id = 123, Name = "Test123" }, 
-                        new TestModel { Id = 1234, Name = "Test1234" },
+                        new TestModel { Id = 1234, Name = "Test1234" }
                     },
                 result);
         }
@@ -87,7 +87,7 @@
                         new TestModel { Id = 1, Name = "Test1" }, 
                         new TestModel { Id = 12, Name = "Test12" },
                         new TestModel { Id = 123, Name = "Test123" }, 
-                        new TestModel { Id = 1234, Name = "Test1234" },
+                        new TestModel { Id = 1234, Name = "Test1234" }
                     },
                 result);
         }
@@ -105,7 +105,7 @@
                 new[]
                     {
                         new TestModel { Name = "Test1" }, 
-                        new TestModel { Id = 1 },
+                        new TestModel { Id = 1 }
                     },
                 result);
         }
@@ -125,7 +125,7 @@
                         new TestModel { Id = 1 }, 
                         new TestModel { Id = 12, Name = "Test12" },
                         new TestModel { Name = "Test123" }, 
-                        new TestModel { Id = 1234, Name = "Test1234" },
+                        new TestModel { Id = 1234, Name = "Test1234" }
                     },
                 result);
 
@@ -135,7 +135,7 @@
                         new TestModel { Id = 1 }, 
                         new TestModel { Id = 12, Name = "Test12" },
                         new TestModel { Name = "Test123" }, 
-                        new TestModel { Id = 1234, Name = "Test1234" },
+                        new TestModel { Id = 1234, Name = "Test1234" }
                     },
                 result);
         }
@@ -155,7 +155,7 @@
                         new Dictionary<string, string> { { "Property1", "1" }, { "Property2", "Test1" } }, 
                         new Dictionary<string, string> { { "Property1", "12" }, { "Property2", "Test12" } }, 
                         new Dictionary<string, string> { { "Property1", "123" }, { "Property2", "Test123" } }, 
-                        new Dictionary<string, string> { { "Property1", "1234" }, { "Property2", "Test1234" } }, 
+                        new Dictionary<string, string> { { "Property1", "1234" }, { "Property2", "Test1234" } }
                     },
                 result);
         }
@@ -172,7 +172,7 @@
             Assert.AreEqual(
                 new[]
                     {
-                        new TestModel { Id = 1, Name = "Test1" },
+                        new TestModel { Id = 1, Name = "Test1" }
                     },
                 result);
         }
@@ -192,7 +192,7 @@
                         new TestModel { Id = 1, Name = "Test1" },
                         new TestModel { Id = 2, Name = "T" },
                         new TestModel { Id = 3, Name = string.Empty },
-                        new TestModel { Id = 4 },
+                        new TestModel { Id = 4 }
                     },
                 result);
         }
@@ -209,7 +209,7 @@
             Assert.AreEqual(
                 new[]
                     {
-                        new TestModel { Id = 1, Name = "Täst1" },
+                        new TestModel { Id = 1, Name = "Täst1" }
                     },
                 result);
         }

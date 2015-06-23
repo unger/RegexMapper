@@ -22,6 +22,21 @@
             this.options = options;
         }
 
+        public T Match(string pattern, string input)
+        {
+            return this.Matches(pattern, input).FirstOrDefault();
+        }
+
+        public T Match(Regex regex, string input)
+        {
+            return this.Matches(regex, input).FirstOrDefault();
+        }
+
+        public T Match(Regex regex, string input, string[] groupNames)
+        {
+            return this.Matches(regex, input, groupNames).FirstOrDefault();
+        }
+
         public IList<T> Matches(string pattern, string input)
         {
             return this.Matches(new Regex(pattern), input);
