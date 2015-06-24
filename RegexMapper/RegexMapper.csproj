@@ -47,7 +47,8 @@
   <ItemGroup>
     <Compile Include="RegexMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegexMapOptions.cs" />
+    <Compile Include="RegexMapConfiguration.cs" />
+    <Compile Include="StringOperation.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

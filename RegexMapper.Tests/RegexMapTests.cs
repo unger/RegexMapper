@@ -163,7 +163,7 @@
         [Test]
         public void Matches_TestRegexMapOptionsTrim()
         {
-            var mapper = new RegexMap<TestModel>(RegexMapOptions.Trim);
+            var mapper = new RegexMap<TestModel>(StringOperation.Trim);
 
             var result = mapper.Matches(
                             @"<id>(?<Id>.*?)</id><name>(?<Name>.*?)</name>",
@@ -180,7 +180,7 @@
         [Test]
         public void Matches_TestRegexMapOptionsUpperCaseFirst()
         {
-            var mapper = new RegexMap<TestModel>(RegexMapOptions.UpperCaseFirst);
+            var mapper = new RegexMap<TestModel>(StringOperation.UpperCaseFirst);
 
             var result = mapper.Matches(
                             @"<id>(?<Id>.*?)</id>|<name>(?<Name>.*?)</name>",
@@ -200,7 +200,7 @@
         [Test]
         public void Matches_TestRegexMapOptionsHtmlDecode()
         {
-            var mapper = new RegexMap<TestModel>(RegexMapOptions.HtmlDecode);
+            var mapper = new RegexMap<TestModel>(StringOperation.HtmlDecode);
 
             var result = mapper.Matches(
                             @"<id>(?<Id>.*?)</id><name>(?<Name>.*?)</name>",

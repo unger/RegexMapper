@@ -10,16 +10,21 @@
 
     public class RegexMap<T> where T : class
     {
-        private RegexMapOptions options;
+        private RegexMapConfiguration config;
 
-        public RegexMap() 
-            : this(RegexMapOptions.None)
+        public RegexMap()
+            : this(StringOperation.None)
         {
         }
 
-        public RegexMap(RegexMapOptions options)
+        public RegexMap(StringOperation operations)
+            : this(new RegexMapConfiguration { GlobalStringOperation = operations })
         {
-            this.options = options;
+        }
+
+        public RegexMap(RegexMapConfiguration config)
+        {
+            this.config = config;
         }
 
         public T Match(string pattern, string input)
@@ -83,25 +88,7 @@
                             }
                         }
 
-                        var value = match.Groups[i + 1].Value;
-
-                        if ((this.options & RegexMapOptions.Trim) == RegexMapOptions.Trim)
-                        {
-                            value = value.Trim();
-                        }
-
-                        if ((this.options & RegexMapOptions.HtmlDecode) == RegexMapOptions.HtmlDecode)
-                        {
-                            value = HttpUtility.HtmlDecode(value);
-                        }
-
-                        if ((this.options & RegexMapOptions.UpperCaseFirst) == RegexMapOptions.UpperCaseFirst)
-                        {
-                            if (value.Length > 0)
-                            {
-                                value = value[0].ToString(CultureInfo.InvariantCulture).ToUpper() + value.Substring(1);
-                            }
-                        }
+                        var value = this.config.ProcessGlobalStringOperations(match.Groups[i + 1].Value);
 
                         dict.Add(groupName, value);
                     }

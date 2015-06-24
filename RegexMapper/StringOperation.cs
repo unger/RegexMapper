@@ -3,7 +3,7 @@
     using System;
 
     [Flags]
-    public enum RegexMapOptions
+    public enum StringOperation
     {
         None = 0,
         Trim = 1,
