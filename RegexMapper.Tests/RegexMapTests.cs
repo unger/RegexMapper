@@ -213,5 +213,41 @@
                     },
                 result);
         }
+
+        [Test]
+        public void Matches_TestStringArray()
+        {
+            var mapper = new RegexMap<string>();
+
+            var result = mapper.Matches(
+                            @"<([^/]+?)>",
+                            @"<id>1</id><name>test</name>");
+
+            Assert.AreEqual(
+                new[]
+                    {
+                        "id",
+                        "name"
+                    },
+                result);
+        }
+
+        [Test]
+        public void Matches_TestIntArray()
+        {
+            var mapper = new RegexMap<int>();
+
+            var result = mapper.Matches(
+                            @"<.+?>([^<]*)</.+?>",
+                            @"<id>1</id><name>2</name>");
+
+            Assert.AreEqual(
+                new[]
+                    {
+                        1,
+                        2
+                    },
+                result);
+        }
     }
 }

@@ -1,16 +1,14 @@
 ﻿namespace RegexMapper
 {
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using System.Web;
 
     using SafeMapper;
 
-    public class RegexMap<T> where T : class
+    public class RegexMap<T>
     {
-        private RegexMapConfiguration config;
+        private readonly RegexMapConfiguration config;
 
         public RegexMap()
             : this(StringOperation.None)
@@ -109,6 +107,17 @@
             }
 
             matchList.Add(dict);
+
+            if (typeof(T) == typeof(string) || typeof(T).IsPrimitive)
+            {
+                var values = new List<string>();
+                foreach (var d in matchList)
+                {
+                    values.AddRange(d.Values);
+                }
+
+                return SafeMap.Convert<List<string>, List<T>>(values);
+            }
 
             return SafeMap.Convert<List<Dictionary<string, string>>, List<T>>(matchList);
         }
