@@ -1,6 +1,8 @@
 ﻿namespace RegexMapper
 {
+    using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Text.RegularExpressions;
 
@@ -10,6 +12,8 @@
     {
         private readonly RegexMapConfiguration config;
 
+        private readonly IFormatProvider formatProvider;
+
         public RegexMap()
             : this(StringOperation.None)
         {
@@ -18,6 +22,7 @@
         public RegexMap(StringOperation operations)
             : this(new RegexMapConfiguration { GlobalStringOperation = operations })
         {
+            this.formatProvider = CultureInfo.InvariantCulture;
         }
 
         public RegexMap(RegexMapConfiguration config)
@@ -108,7 +113,7 @@
 
             matchList.Add(dict);
 
-            if (typeof(T) == typeof(string) || typeof(T).IsPrimitive)
+            if (typeof(T) == typeof(string) || typeof(T) == typeof(decimal) || typeof(T).IsPrimitive)
             {
                 var values = new List<string>();
                 foreach (var d in matchList)
@@ -116,10 +121,10 @@
                     values.AddRange(d.Values);
                 }
 
-                return SafeMap.Convert<List<string>, List<T>>(values);
+                return SafeMap.Convert<List<string>, List<T>>(values, formatProvider);
             }
 
-            return SafeMap.Convert<List<Dictionary<string, string>>, List<T>>(matchList);
+            return SafeMap.Convert<List<Dictionary<string, string>>, List<T>>(matchList, formatProvider);
         }
 
         private bool IsNumeric(string input)

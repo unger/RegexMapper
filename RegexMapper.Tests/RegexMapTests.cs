@@ -249,5 +249,17 @@
                     },
                 result);
         }
+
+        [Test]
+        public void Match_TestDecimal()
+        {
+            var mapper = new RegexMap<decimal>();
+
+            var result = mapper.Match(
+                            @"([\d]+\.[\d]+)",
+                            @"<number>1.45</number>");
+
+            Assert.AreEqual(1.45m, result);
+        }
     }
 }
