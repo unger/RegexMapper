@@ -14,6 +14,8 @@
 
         private readonly IFormatProvider formatProvider;
 
+        private bool isSimpleMapType;
+
         public RegexMap()
             : this(StringOperation.None)
         {
@@ -23,6 +25,7 @@
             : this(new RegexMapConfiguration { GlobalStringOperation = operations })
         {
             this.formatProvider = CultureInfo.InvariantCulture;
+            this.isSimpleMapType = this.CheckIfSimpleMapType();
         }
 
         public RegexMap(RegexMapConfiguration config)
@@ -113,7 +116,7 @@
 
             matchList.Add(dict);
 
-            if (typeof(T) == typeof(string) || typeof(T) == typeof(decimal) || typeof(T).IsPrimitive)
+            if (this.isSimpleMapType)
             {
                 var values = new List<string>();
                 foreach (var d in matchList)
@@ -130,6 +133,16 @@
         private bool IsNumeric(string input)
         {
             return input.All(t => (t >= 48) && (t <= 57));
+        }
+
+        private bool CheckIfSimpleMapType()
+        {
+            if (typeof(T) == typeof(string) || typeof(T) == typeof(decimal) || typeof(T).IsPrimitive)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
