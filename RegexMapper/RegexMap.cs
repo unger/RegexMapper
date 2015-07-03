@@ -12,8 +12,6 @@
     {
         private readonly RegexMapConfiguration config;
 
-        private readonly IFormatProvider formatProvider;
-
         private bool isSimpleMapType;
 
         public RegexMap()
@@ -24,13 +22,12 @@
         public RegexMap(StringOperation operations)
             : this(new RegexMapConfiguration { GlobalStringOperation = operations })
         {
-            this.formatProvider = CultureInfo.InvariantCulture;
-            this.isSimpleMapType = this.CheckIfSimpleMapType();
         }
 
         public RegexMap(RegexMapConfiguration config)
         {
             this.config = config;
+            this.isSimpleMapType = this.CheckIfSimpleMapType();
         }
 
         public T Match(string pattern, string input)
@@ -124,10 +121,10 @@
                     values.AddRange(d.Values);
                 }
 
-                return SafeMap.Convert<List<string>, List<T>>(values, formatProvider);
+                return SafeMap.Convert<List<string>, List<T>>(values, this.config.FormatProvider);
             }
 
-            return SafeMap.Convert<List<Dictionary<string, string>>, List<T>>(matchList, formatProvider);
+            return SafeMap.Convert<List<Dictionary<string, string>>, List<T>>(matchList, this.config.FormatProvider);
         }
 
         private bool IsNumeric(string input)

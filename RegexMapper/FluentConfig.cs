@@ -1,5 +1,7 @@
 ﻿namespace RegexMapper
 {
+    using System;
+
     public class FluentConfig
     {
         private readonly RegexMapConfiguration config;
@@ -24,6 +26,12 @@
         public FluentConfig HtmlDecode()
         {
             this.config.GlobalStringOperation |= StringOperation.HtmlDecode;
+            return this;
+        }
+
+        public FluentConfig FormatProvider(IFormatProvider provider)
+        {
+            this.config.FormatProvider = provider;
             return this;
         }
 
